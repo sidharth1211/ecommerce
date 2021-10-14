@@ -1,37 +1,43 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Container, Col, Row } from 'react-bootstrap'
 import Product from '../components/Product.js'
-import axios from 'axios'
+import { listProducts } from '../actions/productActions.js'
+import Message from '../components/Message.js'
+import Loader from '../components/Loader.js'
 const Homescreen = () => {
-    const [products, setProducts] = useState([])
-    useEffect(()=>{
-        const fetchProducts = async()=>{
-            const res = await axios.get('/api/product')
+    const dispatch = useDispatch()
+    const productList = useSelector(state => state.productList)
+    
 
-            setProducts(res.data)
-            console.log(res.data)
-        }
-        fetchProducts()
-    },[]
+    useEffect(()=>{
+        dispatch(listProducts())
+    },[dispatch]
 
     )
+    const { loading , error, products } = productList
+  
     return (
         <div>
             <Container>
-                <Row>
+                <h1>LATEST PRODUCTS </h1>
+                {loading ? 
+                <Loader/>: error?<Message >{error}</Message> : <Row>
                     
-                        {
-                            products.map((product) =>{
-                                return (
-                                <Col sm={12} md={6} lg={4}>
-                                <Product product={ product }/>
-                                </Col>
-                                )
-                            })
+                {
+                    products.map((product) =>{
+                        return (
+                        <Col sm={12} md={6} lg={4}>
+                        <Product product={ product }/>
+                        </Col>
+                        )
+                    })
 
-                        }
-                    
-                </Row> 
+                }
+            
+        </Row>
+                }
+                 
 
             </Container>
         </div>
