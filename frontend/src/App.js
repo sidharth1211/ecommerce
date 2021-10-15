@@ -4,6 +4,7 @@ import { Row, Container, Card, Button } from 'react-bootstrap'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Homescreen from './screens/Homescreen';
 import ProductScreen from './screens/ProductScreen';
+import CartScreen from './screens/CartScreen'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <main className="py-3">
       <Route path="/" component={Homescreen} exact/>
       <Route path="/product/:id" component={ProductScreen} exact/>
+      <Route path="/cart/:id?" component={CartScreen} exact/>
       </main>
       </Container>
       <Footer/>
